@@ -4,7 +4,7 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:wdr/app/controllers/analytics.dart';
 import 'package:wdr/app/controllers/auth_controller.dart';
-import 'package:wdr/app/controllers/dashboard_controller.dart';
+import 'package:wdr/app/controllers/dashboard_controller/dashboard_main_controller.dart';
 import 'package:wdr/app/controllers/rental_controller.dart';
 import 'package:wdr/app/routes/app_pages.dart';
 
