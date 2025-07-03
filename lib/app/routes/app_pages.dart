@@ -15,7 +15,7 @@ class AppPages {
     GetPage(name: '/splash', page: () => SplashView()),
     GetPage(name: '/login', page: () => LoginView()),
     GetPage(name: '/dashboard', page: () => DashboardView()),
-    GetPage(name: '/rentals', page: () => RentalView()), 
+    GetPage(name: '/rentals', page: () => RentalView()),
     GetPage(name: '/customers', page: () => CustomersView()),
     GetPage(name: '/bookings', page: () => BookingsView()),
     GetPage(name: '/analytics', page: () => AnalyticsView()),
