@@ -1,37 +1,102 @@
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wdr/app/models/rental.dart';
 
 class RentalController extends GetxController {
-  final RxList<Rental> rentals = <Rental>[].obs; // All rentals
-  final RxList<Rental> filteredRentals = <Rental>[].obs; // Filtered rentals
+  final RxList<Rental> allItems = <Rental>[].obs;
+  final RxList<Rental> filteredItems = <Rental>[].obs;
+  final RxBool isGridView = true.obs;
+  final RxString searchQuery = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
-    // Initialize rentals (e.g., fetch from API or database)
-    fetchRentals();
+    loadMockData();
+    filterItemsByCategory('All');
   }
 
-  void fetchRentals() {
-    // Example: Populate rentals (replace with actual data source)
-    rentals.addAll([
-      Rental(id: '1', name: 'Canon EOS', category: 'Camera', price: 50.0, imageUrl: '...', description: '...'),
-      Rental(id: '2', name: 'Zoom Lens', category: 'Lens', price: 30.0, imageUrl: '...', description: '...'),
+  void sortItemsByName({required bool ascending}) {
+    final sorted = List<Rental>.from(filteredItems);
+    sorted.sort((a, b) =>
+        ascending ? a.name.compareTo(b.name) : b.name.compareTo(a.name));
+    filteredItems.value = List<Rental>.from(sorted);
+  }
+
+  void sortItemsByDate({required bool ascending}) {
+    final sorted = List<Rental>.from(filteredItems);
+    sorted.sort((a, b) =>
+        ascending ? a.date.compareTo(b.date) : b.date.compareTo(a.date));
+    filteredItems.value = List<Rental>.from(sorted);
+  }
+
+  void loadMockData() {
+    allItems.assignAll([
+      Rental(
+        name: 'Canon EOS 5D',
+        description: 'Professional DSLR Camera with 24-105mm lens',
+        price: 2500,
+        imageUrl:
+            'https://images.unsplash.com/photo-1519183071298-a2962d048a1c', // sample image
+        category: 'Camera',
+        date: DateTime(2023, 5, 10),
+      ),
+      Rental(
+        name: 'Bridal Lehenga',
+        description: 'Red embroidered designer lehenga for wedding',
+        price: 4000,
+        imageUrl:
+            'https://images.unsplash.com/photo-1582735681846-848ce3f9f5c8', // sample image
+        category: 'Dresses',
+        date: DateTime(2023, 6, 15),
+      ),
+      Rental(
+        name: 'Stage Decoration',
+        description: 'Floral and LED lighting setup',
+        price: 3500,
+        imageUrl: '',
+        category: 'Decoration',
+        date: DateTime(2023, 7, 20),
+      ),
     ]);
-    filteredRentals.assignAll(rentals); // Initially show all rentals
+
+    // show all by default
+    filteredItems.assignAll(allItems);
   }
 
-  void filterByCategory(String category) {
+  void filterItemsByCategory(String category) {
     if (category == 'All') {
-      filteredRentals.assignAll(rentals);
+      filteredItems.value = allItems;
     } else {
-      filteredRentals.assignAll(rentals.where((rental) => rental.category == category));
+      filteredItems.value = allItems
+          .where(
+              (item) => item.category.toLowerCase() == category.toLowerCase())
+          .toList();
     }
   }
 
-  void deleteRental(String id) {
-    rentals.removeWhere((rental) => rental.id == id);
-    filteredRentals.removeWhere((rental) => rental.id == id);
+  void searchAndFilterItems(String category, String query) {
+    final filtered = allItems.where((item) {
+      final matchesCategory = category == 'All' || item.category == category;
+      final matchesSearch =
+          item.name.toLowerCase().contains(query.toLowerCase()) ||
+              item.description.toLowerCase().contains(query.toLowerCase());
+      return matchesCategory && matchesSearch;
+    }).toList();
+
+    filteredItems.assignAll(filtered);
+  }
+
+  void openItemDetails(dynamic item) {
+    Get.defaultDialog(
+      title: item.name,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Description: ${item.description}'),
+          Text('Price: ₹${item.price}'),
+          // Add more fields if needed
+        ],
+      ),
+    );
   }
 }
