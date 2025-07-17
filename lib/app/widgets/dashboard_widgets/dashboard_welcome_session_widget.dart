@@ -66,9 +66,9 @@ class WelcomeSectionWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton.icon(
-                  onPressed: () => Get.toNamed('/add-rental'),
-                  icon: Icon(Icons.add),
-                  label: Text('Add New Item'),
+                  onPressed: () => Get.toNamed('/rentals'),
+                  icon: Icon(Icons.more_vert_rounded),
+                  label: Text('See more'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: controller.getTimeBasedColors()[0],

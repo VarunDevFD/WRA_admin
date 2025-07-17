@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart'; 
-import 'package:get/get.dart'; 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class QuickActions extends StatelessWidget {
   const QuickActions({super.key});
@@ -35,7 +35,7 @@ class QuickActions extends StatelessWidget {
             'Products Management',
             Icons.add_circle_outline,
             Color(0xFF667eea),
-            () => Get.toNamed('/add-rental'),
+            () => Get.toNamed('/rentals'),
           ),
           SizedBox(height: 12),
           _quickActionButton(

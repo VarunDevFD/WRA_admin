@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get.dart';
 import 'package:wdr/app/controllers/dashboard_controller/dashboard_main_controller.dart';
 
 class RecentActivity extends StatelessWidget {
@@ -37,7 +36,7 @@ class RecentActivity extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () => Get.toNamed('/bookings'),
                 child: Text('View All'),
               ),
             ],
@@ -108,9 +107,9 @@ class RecentActivity extends StatelessWidget {
 
   IconData _getActivityIcon(String action) {
     if (action.contains('booking')) return Icons.book_online;
-    if (action.contains('returned')) return Icons.assignment_return;
-    if (action.contains('customer')) return Icons.person_add;
-    if (action.contains('booked')) return Icons.event_available;
+    if (action.contains('Returned')) return Icons.assignment_return;
+    if (action.contains('Comer')) return Icons.person_add;
+    if (action.contains('Payments')) return Icons.event_available;
     return Icons.notifications;
   }
 }
