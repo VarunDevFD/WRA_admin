@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wdr/app/controllers/dashboard_controller/top_categories_controller.dart';
-import 'package:wdr/app/models/top_category_item.dart'; 
+import 'package:wdr/app/models/top_category_item.dart';
 
 class TopCategoriesView extends StatelessWidget {
   TopCategoriesView({super.key});
@@ -47,7 +47,7 @@ class TopCategoriesView extends StatelessWidget {
 
   Widget _categoryItem(String name, int count, Color color) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 14),
       child: Row(
         children: [
           Container(
@@ -69,7 +69,7 @@ class TopCategoriesView extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
             decoration: BoxDecoration(
               color: const Color(0x1A000000),
               borderRadius: BorderRadius.circular(12),
