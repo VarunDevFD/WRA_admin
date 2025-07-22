@@ -9,6 +9,9 @@ class WelcomeSectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screen = MediaQuery.of(context).size.width;
+    final isMobile = screen < 600;
+    final isTablet = screen >= 600 && screen < 1200;
     return Container(
       padding: EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -40,8 +43,13 @@ class WelcomeSectionWidget extends StatelessWidget {
                     Text(
                       '${controller.getTimeBasedGreeting()}, Admin!',
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: screen < 600
+                            ? 16
+                            : screen < 1200
+                                ? 20
+                                : 24,
                         fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis,
                         color: Colors.white,
                       ),
                     ),
@@ -93,7 +101,15 @@ class WelcomeSectionWidget extends StatelessWidget {
                 width: 1,
               ),
             ),
-            child: Icon(Icons.trending_up, size: 60, color: Colors.white),
+            child: Icon(
+              Icons.trending_up,
+              size: isMobile
+                  ? 35
+                  : isTablet
+                      ? 45
+                      : 60,
+              color: Colors.white,
+            ),
           ),
         ],
       ),

@@ -12,54 +12,149 @@ class StatsCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 600;
+    final isTablet = screenWidth >= 600 && screenWidth < 1200;
+
+    // Responsive padding, spacing, and font sizes
+    final double padding = isMobile
+        ? 12.0
+        : isTablet
+            ? 16.0
+            : 20.0;
+    final double spacing = isMobile
+        ? 12.0
+        : isTablet
+            ? 16.0
+            : 20.0;
+    final double cardHeight = isMobile
+        ? 140.0
+        : isTablet
+            ? 160.0
+            : 180.0;
+    final double valueFontSize = isMobile
+        ? 22.0
+        : isTablet
+            ? 26.0
+            : 28.0;
+    final double titleFontSize = isMobile
+        ? 12.0
+        : isTablet
+            ? 13.0
+            : 14.0;
+
     return Obx(
-      () => Row(
-        children: [
-          Expanded(
-            child: _statsCard(
-              'Total Items',
-              controller.totalItems.value.toString(),
-              Icons.inventory_2_outlined,
-              Colors.blue,
-              '+12%',
-              0,
+      () => isMobile
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _statsCard(
+                  'Total Items',
+                  controller.totalItems.value.toString(),
+                  Icons.inventory_2_outlined,
+                  Colors.blue,
+                  '+12%',
+                  0,
+                  cardHeight,
+                  valueFontSize,
+                  titleFontSize,
+                  padding,
+                ),
+                SizedBox(height: spacing),
+                _statsCard(
+                  'Total Customers',
+                  controller.totalCustomers.value.toString(),
+                  Icons.people_outline,
+                  Colors.green,
+                  '+8%',
+                  1,
+                  cardHeight,
+                  valueFontSize,
+                  titleFontSize,
+                  padding,
+                ),
+                SizedBox(height: spacing),
+                _statsCard(
+                  'Active Bookings',
+                  controller.activeBookings.value.toString(),
+                  Icons.book_online_outlined,
+                  Colors.orange,
+                  '+15%',
+                  2,
+                  cardHeight,
+                  valueFontSize,
+                  titleFontSize,
+                  padding,
+                ),
+                SizedBox(height: spacing),
+                _statsCard(
+                  'Monthly Revenue',
+                  '\$${controller.monthlyRevenue.value.toStringAsFixed(0)}',
+                  Icons.attach_money,
+                  Colors.purple,
+                  '+22%',
+                  3,
+                  cardHeight,
+                  valueFontSize,
+                  titleFontSize,
+                  padding,
+                ),
+              ],
+            )
+          : Wrap(
+              spacing: spacing,
+              runSpacing: spacing,
+              children: [
+                _statsCard(
+                  'Total Items',
+                  controller.totalItems.value.toString(),
+                  Icons.inventory_2_outlined,
+                  Colors.blue,
+                  '+12%',
+                  0,
+                  cardHeight,
+                  valueFontSize,
+                  titleFontSize,
+                  padding,
+                ),
+                _statsCard(
+                  'Total Customers',
+                  controller.totalCustomers.value.toString(),
+                  Icons.people_outline,
+                  Colors.green,
+                  '+8%',
+                  1,
+                  cardHeight,
+                  valueFontSize,
+                  titleFontSize,
+                  padding,
+                ),
+                _statsCard(
+                  'Active Bookings',
+                  controller.activeBookings.value.toString(),
+                  Icons.book_online_outlined,
+                  Colors.orange,
+                  '+15%',
+                  2,
+                  cardHeight,
+                  valueFontSize,
+                  titleFontSize,
+                  padding,
+                ),
+                _statsCard(
+                  'Monthly Revenue',
+                  '\$${controller.monthlyRevenue.value.toStringAsFixed(0)}',
+                  Icons.attach_money,
+                  Colors.purple,
+                  '+22%',
+                  3,
+                  cardHeight,
+                  valueFontSize,
+                  titleFontSize,
+                  padding,
+                ),
+              ],
             ),
-          ),
-          SizedBox(width: 20),
-          Expanded(
-            child: _statsCard(
-              'Total Customers',
-              controller.totalCustomers.value.toString(),
-              Icons.people_outline,
-              Colors.green,
-              '+8%',
-              1,
-            ),
-          ),
-          SizedBox(width: 20),
-          Expanded(
-            child: _statsCard(
-              'Active Bookings',
-              controller.activeBookings.value.toString(),
-              Icons.book_online_outlined,
-              Colors.orange,
-              '+15%',
-              2,
-            ),
-          ),
-          SizedBox(width: 20),
-          Expanded(
-            child: _statsCard(
-              'Monthly Revenue',
-              '\$${controller.monthlyRevenue.value.toStringAsFixed(0)}',
-              Icons.attach_money,
-              Colors.purple,
-              '+22%',
-              3,
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -70,16 +165,21 @@ class StatsCards extends StatelessWidget {
     Color color,
     String change,
     int cardIndex,
+    double cardHeight,
+    double valueFontSize,
+    double titleFontSize,
+    double padding,
   ) {
     return Container(
-      height: 180,
+      width: 300, // Fixed width for Wrap layout (tablet/desktop)
+      height: cardHeight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Color(0x14000000),
+            color: const Color(0x14000000),
             blurRadius: 12,
-            offset: Offset(0, 6),
+            offset: const Offset(0, 6),
           ),
         ],
       ),
@@ -96,7 +196,7 @@ class StatsCards extends StatelessWidget {
                 return Container(
                   color: Colors.grey[300],
                   alignment: Alignment.center,
-                  child: Icon(Icons.broken_image, color: Colors.grey),
+                  child: const Icon(Icons.broken_image, color: Colors.grey),
                 );
               },
             ),
@@ -105,13 +205,13 @@ class StatsCards extends StatelessWidget {
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
               child: Container(
-                color: Color(0x4D000000),
+                color: const Color(0x4D000000),
               ),
             ),
 
             // Gradient Overlay
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
                     Color(0x80000000), // 0.5 opacity black
@@ -125,7 +225,7 @@ class StatsCards extends StatelessWidget {
 
             // Card Content
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(padding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -134,28 +234,31 @@ class StatsCards extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(padding * 0.5),
                         decoration: BoxDecoration(
                           color:
                               controller.getTimeBasedColors()[0].withAlpha(204),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Icon(icon, color: Colors.white, size: 22),
+                        child:
+                            Icon(icon, color: Colors.white, size: padding + 2),
                       ),
                       Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: padding * 0.4,
+                          vertical: padding * 0.2,
+                        ),
                         decoration: BoxDecoration(
-                          color: Color(0x3369F0AE),
+                          color: const Color(0x3369F0AE),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           change,
                           style: TextStyle(
                             color: Colors.greenAccent,
-                            fontSize: 12,
+                            fontSize: titleFontSize - 2,
                             fontWeight: FontWeight.w600,
-                            shadows: [
+                            shadows: const [
                               Shadow(
                                 color: Color(0x80000000),
                                 offset: Offset(0, 1),
@@ -168,46 +271,54 @@ class StatsCards extends StatelessWidget {
                     ],
                   ),
 
-                  SizedBox(height: 20),
+                  SizedBox(height: padding),
 
                   // Main Value
-                  Text(
-                    value,
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      shadows: [
-                        Shadow(
-                          color: Color(0x99000000),
-                          offset: Offset(0, 2),
-                          blurRadius: 6,
-                        ),
-                      ],
+                  Flexible(
+                    child: Text(
+                      value,
+                      style: TextStyle(
+                        fontSize: valueFontSize,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        shadows: const [
+                          Shadow(
+                            color: Color(0x99000000),
+                            offset: Offset(0, 2),
+                            blurRadius: 6,
+                          ),
+                        ],
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
 
-                  SizedBox(height: 4),
+                  SizedBox(height: padding * 0.2),
 
                   // Title
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white70,
-                      shadows: [
-                        Shadow(
-                          color: Color(0x66000000),
-                          offset: Offset(0, 1),
-                          blurRadius: 3,
-                        ),
-                      ],
+                  Flexible(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: titleFontSize,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white70,
+                        shadows: const [
+                          Shadow(
+                            color: Color(0x66000000),
+                            offset: Offset(0, 1),
+                            blurRadius: 3,
+                          ),
+                        ],
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

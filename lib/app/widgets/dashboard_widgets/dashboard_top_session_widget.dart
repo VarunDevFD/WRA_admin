@@ -3,17 +3,48 @@ import 'package:get/get.dart';
 import 'package:wdr/app/controllers/dashboard_controller/dashboard_main_controller.dart';
 
 class TopBarWidget extends StatelessWidget {
-  final DashboardController controller = Get.put(DashboardController());
+  final DashboardController controller = Get.find<DashboardController>();
 
   TopBarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 600;
+    final isTablet = screenWidth >= 600 && screenWidth < 1200;
+
+    // Responsive font sizes, padding, and height
+    final double titleFontSize = isMobile
+        ? 14.0
+        : isTablet
+            ? 16.0
+            : 18.0;
+    final double subtitleFontSize = isMobile
+        ? 10.0
+        : isTablet
+            ? 12.0
+            : 13.0;
+    final double padding = isMobile
+        ? 8.0
+        : isTablet
+            ? 12.0
+            : 16.0;
+    final double containerHeight = isMobile
+        ? 60.0
+        : isTablet
+            ? 70.0
+            : 80.0;
+    final double iconSize = isMobile
+        ? 18.0
+        : isTablet
+            ? 22.0
+            : 24.0;
+
     return Container(
-      height: 80,
+      height: containerHeight,
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Color(0x0D000000),
             blurRadius: 10,
@@ -21,79 +52,139 @@ class TopBarWidget extends StatelessWidget {
           ),
         ],
       ),
-      padding: EdgeInsets.symmetric(horizontal: 24),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ShaderMask(
-                shaderCallback: (bounds) => LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: controller.getTimeBasedColors(),
-                ).createShader(
-                    Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
-                child: Text(
-                  'Welcome to Rental Web Application Admin! 👋',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: padding),
+      child: isMobile
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: _buildTextSection(
+                          context,
+                          titleFontSize,
+                          subtitleFontSize,
+                          padding,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          _buildNotificationPopup(iconSize),
+                          SizedBox(width: padding * 0.5),
+                          _buildAdminAvatar(iconSize),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              Text(
-                'Here\'s what\'s happening with your rental business today',
-                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              _buildTodayDate(),
-              SizedBox(width: 16),
-              _buildNotificationPopup(),
-              SizedBox(width: 16),
-              _buildAdminAvatar(),
-            ],
-          ),
-        ],
-      ),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: _buildTextSection(
+                    context,
+                    titleFontSize,
+                    subtitleFontSize,
+                    padding,
+                  ),
+                ),
+                Row(
+                  children: [
+                    _buildTodayDate(iconSize, padding),
+                    SizedBox(width: padding),
+                    _buildNotificationPopup(iconSize),
+                    SizedBox(width: padding),
+                    _buildAdminAvatar(iconSize),
+                  ],
+                ),
+              ],
+            ),
     );
   }
 
-  Widget _buildTodayDate() {
+  Widget _buildTextSection(
+    BuildContext context,
+    double titleFontSize,
+    double subtitleFontSize,
+    double padding,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ShaderMask(
+          shaderCallback: (bounds) => LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: controller.getTimeBasedColors(),
+          ).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
+          child: Flexible(
+            child: Text(
+              'Welcome to Rental Web Application Admin! 👋',
+              style: TextStyle(
+                fontSize: titleFontSize,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+          ),
+        ),
+        SizedBox(height: padding * 0.5),
+        Flexible(
+          child: Text(
+            'Here\'s what\'s happening with your rental business today',
+            style: TextStyle(
+              fontSize: subtitleFontSize,
+              color: Colors.grey[600],
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTodayDate(double iconSize, double padding) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding:
+          EdgeInsets.symmetric(horizontal: padding, vertical: padding * 0.5),
       decoration: BoxDecoration(
         color: Colors.blue[50],
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         children: [
-          Icon(Icons.calendar_today, size: 16, color: Colors.blue[600]),
-          SizedBox(width: 8),
+          Icon(Icons.calendar_today,
+              size: iconSize * 0.8, color: Colors.blue[600]),
+          SizedBox(width: padding * 0.5),
           Text(
             'Today: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
             style: TextStyle(
               color: Colors.blue[600],
               fontWeight: FontWeight.w500,
-              fontSize: 12,
+              fontSize: iconSize * 0.6,
             ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildNotificationPopup() {
+  Widget _buildNotificationPopup(double iconSize) {
     return PopupMenuButton(
       position: PopupMenuPosition.under,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      offset: Offset(0, 50),
+      offset: const Offset(0, 50),
       constraints: BoxConstraints(maxWidth: 300),
       tooltip: 'Notifications',
       itemBuilder: (_) => [
@@ -107,20 +198,20 @@ class TopBarWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text('Notifications',
+                    const Text('Notifications',
                         style: TextStyle(fontWeight: FontWeight.bold)),
-                    Spacer(),
+                    const Spacer(),
                     if (hasNotifications)
                       TextButton(
                         onPressed: () => controller.markAllAsRead(),
-                        child: Text("Read All"),
+                        child: const Text("Read All"),
                       ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 if (!hasNotifications)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text('No new notifications'),
                   )
                 else
@@ -129,11 +220,16 @@ class TopBarWidget extends StatelessWidget {
                     return ListTile(
                       dense: true,
                       contentPadding: EdgeInsets.zero,
-                      title: Text(msg),
+                      title: Text(
+                        msg,
+                        style: TextStyle(fontSize: iconSize * 0.6),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
                       onTap: () => controller.markAsDone(index),
                       trailing: IconButton(
                         icon: Icon(Icons.check_circle_outline,
-                            color: Colors.green),
+                            color: Colors.green, size: iconSize * 0.8),
                         onPressed: () => controller.markAsDone(index),
                       ),
                     );
@@ -145,15 +241,16 @@ class TopBarWidget extends StatelessWidget {
       ],
       icon: Stack(
         children: [
-          Icon(Icons.notifications_outlined, size: 24, color: Colors.black87),
+          Icon(Icons.notifications_outlined,
+              size: iconSize, color: Colors.black87),
           if (controller.notifications.isNotEmpty)
             Positioned(
               right: 0,
               top: 0,
               child: Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
+                width: iconSize * 0.3,
+                height: iconSize * 0.3,
+                decoration: const BoxDecoration(
                   color: Colors.red,
                   shape: BoxShape.circle,
                 ),
@@ -164,34 +261,35 @@ class TopBarWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildAdminAvatar() {
+  Widget _buildAdminAvatar(double iconSize) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Tooltip(
         message: controller.adminEmail,
-        textStyle: TextStyle(color: Colors.white),
+        textStyle: const TextStyle(color: Colors.white),
         decoration: BoxDecoration(
           color: Colors.black87,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Container(
-          padding: EdgeInsets.all(2),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.all(2),
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0xFF667eea), Color(0xFF764ba2)],
             ),
             shape: BoxShape.circle,
           ),
           child: CircleAvatar(
-            radius: 20,
+            radius: iconSize * 0.8,
             backgroundColor: Colors.white,
             child: Text(
               controller.adminEmail.isNotEmpty
                   ? controller.adminEmail[0].toUpperCase()
                   : 'V',
               style: TextStyle(
-                color: Color(0xFF667eea),
+                color: const Color(0xFF667eea),
                 fontWeight: FontWeight.bold,
+                fontSize: iconSize * 0.7,
               ),
             ),
           ),
