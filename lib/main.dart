@@ -1,12 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:wdr/app/controllers/analytics.dart';
-import 'package:wdr/app/controllers/auth_controller.dart';
-import 'package:wdr/app/controllers/dashboard_controller/dashboard_main_controller.dart';
-import 'package:wdr/app/controllers/rental_controller.dart';
+import 'package:flutter/material.dart'; 
+import 'package:wdr/app/common/di_models.dart'; 
 import 'package:wdr/app/routes/app_pages.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,10 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Initialize controllers
-    Get.put(AuthController());
-    Get.put(DashboardController());
-    Get.put(RentalController());
-    Get.put(AnalyticsController());
+    di();
+   
 
     return GetMaterialApp(
       title: 'Rental Admin Dashboard',

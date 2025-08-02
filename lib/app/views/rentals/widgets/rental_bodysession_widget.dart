@@ -3,13 +3,24 @@ import 'package:get/get.dart';
 import 'package:wdr/app/controllers/rental_controller.dart';
 
 class BodySession extends StatelessWidget {
-  final RentalController controller = Get.find();
-  BodySession({super.key});
+  final commonColor = const Color.fromARGB(255, 161, 203, 233);
+  const BodySession({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final RentalController controller = Get.find();
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 600;
+
     return Obx(() {
       final items = controller.filteredItems;
+      final isGrid = controller.isGridView.value;
+      var screenSize = controller.screenSize.value;
+      if (isMobile) {
+        screenSize = true; // Force single column on mobile
+      } else {
+        screenSize = false; // Use grid on larger screens
+      }
 
       if (items.isEmpty) {
         return Center(
@@ -20,33 +31,66 @@ class BodySession extends StatelessWidget {
         );
       }
 
-      return controller.isGridView.value
-          ? GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 50,
-                crossAxisSpacing: 20,
-                childAspectRatio: 4 / 3,
-              ),
-              itemCount: items.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) =>
-                  buildItemCard(items[index], isGrid: true),
-            )
-          : ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.only(bottom: 12.0),
-                child: buildItemCard(items[index], isGrid: false),
-              ),
-            );
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          final screenWidth = constraints.maxWidth;
+          int crossAxisCount;
+          if (screenWidth >= 1200) {
+            crossAxisCount = 4;
+          } else if (screenWidth >= 800) {
+            crossAxisCount = 3;
+          } else if (screenWidth >= 600) {
+            crossAxisCount = 2;
+          } else {
+            crossAxisCount = 1;
+          }
+
+          return isGrid
+              ? GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    mainAxisSpacing: 50,
+                    crossAxisSpacing: 20,
+                    childAspectRatio: 4 / 3,
+                  ),
+                  itemCount: items.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => buildItemCard(
+                      item: items[index],
+                      isGrid: true,
+                      commonColor: commonColor,
+                      controller: controller,
+                      screenSize: screenSize),
+                )
+              : ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) => Padding(
+                    padding: EdgeInsets.only(bottom: isMobile ? 12 : 8),
+                    child: buildItemCard(
+                        item: items[index],
+                        isGrid: false,
+                        commonColor: commonColor,
+                        controller: controller,
+                        screenSize: screenSize),
+                  ),
+                );
+        },
+      );
     });
   }
 
-  Widget buildItemCard(dynamic item, {required bool isGrid}) {
+  Widget buildItemCard({
+    required dynamic item,
+    required bool isGrid,
+    required Color commonColor,
+    required RentalController controller,
+    bool screenSize = false,
+  }) {
     return Container(
+      padding: EdgeInsets.all(12),
+      height: isGrid ? 350 : 150,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: commonColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -56,7 +100,6 @@ class BodySession extends StatelessWidget {
           ),
         ],
       ),
-      padding: EdgeInsets.all(12),
       child: isGrid
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,8 +120,10 @@ class BodySession extends StatelessWidget {
                                 : null,
                           ),
                           child: item.imageUrl.isEmpty
-                              ? Icon(Icons.image_not_supported,
-                                  size: 40, color: Colors.grey[400])
+                              ? Center(
+                                  child: Icon(Icons.image_not_supported,
+                                      color: Colors.grey[400]),
+                                )
                               : null,
                         ),
                       ),
@@ -86,13 +131,12 @@ class BodySession extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8),
-                ...itemCardContent(item),
+                ...itemCardContent(item, screenSize),
                 Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
                     icon: Icon(Icons.visibility, color: Colors.grey[700]),
                     onPressed: () {
-                      // Implement navigation or detail logic
                       controller.openItemDetails(item);
                     },
                   ),
@@ -102,8 +146,8 @@ class BodySession extends StatelessWidget {
           : Row(
               children: [
                 Container(
-                  height: 80,
-                  width: 100,
+                  height: 120,
+                  width: 160,
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(12),
@@ -129,7 +173,6 @@ class BodySession extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.visibility, color: Colors.grey[700]),
                   onPressed: () {
-                    // Implement navigation or detail logic
                     controller.openItemDetails(item);
                   },
                 ),
@@ -138,19 +181,21 @@ class BodySession extends StatelessWidget {
     );
   }
 
-  List<Widget> itemCardContent(dynamic item) {
+  List<Widget> itemCardContent(dynamic item, [bool isMobile = false]) {
     return [
       Text(
         item.name,
         style: TextStyle(
-            fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey[800]),
+            fontSize: isMobile ? 14 : 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey[800]),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
       SizedBox(height: 4),
       Text(
         item.description,
-        style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+        style: TextStyle(fontSize: isMobile ? 10 : 16, color: Colors.grey[600]),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
@@ -158,10 +203,10 @@ class BodySession extends StatelessWidget {
       Text(
         '₹${item.price}',
         style: TextStyle(
-            fontSize: 14, fontWeight: FontWeight.w600, color: Colors.indigo),
+            fontSize: isMobile ? 12 : 20,
+            fontWeight: FontWeight.w600,
+            color: Colors.indigo),
       ),
     ];
   }
-
-  
 }

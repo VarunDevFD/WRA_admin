@@ -6,6 +6,7 @@ class RentalController extends GetxController {
   final RxList<Rental> allItems = <Rental>[].obs;
   final RxList<Rental> filteredItems = <Rental>[].obs;
   final RxBool isGridView = true.obs;
+  final RxBool screenSize = false.obs;
   final RxString searchQuery = ''.obs;
 
   @override
@@ -36,7 +37,7 @@ class RentalController extends GetxController {
         description: 'Professional DSLR Camera with 24-105mm lens',
         price: 2500,
         imageUrl:
-            'https://images.unsplash.com/photo-1519183071298-a2962d048a1c', // sample image
+            'https://images.unsplash.com/photo-1519183071298-a2962d048a1c',
         category: 'Camera',
         date: DateTime(2023, 5, 10),
       ),
@@ -92,6 +93,10 @@ class RentalController extends GetxController {
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (item.imageUrl.isNotEmpty)
+            Center(
+                child: Image.network(item.imageUrl,
+                    height: 200, fit: BoxFit.cover)),
           Text('Description: ${item.description}'),
           Text('Price: ₹${item.price}'),
           // Add more fields if needed

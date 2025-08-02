@@ -8,7 +8,6 @@ import 'package:wdr/app/views/rentals/widgets/searchbar_widget.dart';
 import '../../controllers/rental_controller.dart';
 
 class RentalView extends StatelessWidget {
-  final RentalController controller = Get.find();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
@@ -19,87 +18,121 @@ class RentalView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final RentalController controller = Get.find();
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 600;
+    final isTablet = screenWidth >= 600 && screenWidth < 1200;
+    final commonColor = const Color.fromARGB(255, 161, 203, 233);
+
     return Scaffold(
-      body: Row(
-        children: [
-          Sidebar(),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      backgroundColor: Colors.white,
+      drawer: isMobile ? Drawer(child: const Sidebar()) : null,
+      appBar: isMobile
+          ? AppBar(
+              title: const Text('Rental Items'),
+              elevation: 0,
+              backgroundColor: commonColor,
+            )
+          : null,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Row(
+            children: [
+              if (!isMobile) const Sidebar(), // Sidebar for tablet and desktop
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Rental Items',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey[800],
+                      if (!isMobile) ...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Rental Items',
+                              style: TextStyle(
+                                fontSize: isTablet ? 22 : 28,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[800],
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(child: SearchBarView()),
+                            const SizedBox(width: 16),
+                            Row(
+                              children: [GridToggleSwitcher()],
+                            ),
+                          ],
                         ),
-                      ),
-                      SearchBarView(),
-                      SizedBox(width: 16),
-                      Row(
+                        const SizedBox(height: 20),
+                      ],
+                      // For mobile, simplified layout
+                      if (isMobile) ...[
+                        Text(
+                          'Rental Items',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[800],
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        SearchBarView(),
+                        const SizedBox(height: 12),
+                        GridToggleSwitcher(),
+                        const SizedBox(height: 16),
+                      ],
+                      Wrap(
+                        spacing: 16,
+                        runSpacing: 12,
                         children: [
-                          GridToggleSwitcher(isGridView: controller.isGridView)
+                          buildCategoryFilter(),
+                          SortDropdownButton(
+                            onSelected: (selected) {
+                              switch (selected) {
+                                case 'name_asc':
+                                  controller.sortItemsByName(ascending: true);
+                                  break;
+                                case 'name_desc':
+                                  controller.sortItemsByName(ascending: false);
+                                  break;
+                                case 'date_desc':
+                                  controller.sortItemsByDate(ascending: false);
+                                  break;
+                                case 'date_asc':
+                                  controller.sortItemsByDate(ascending: true);
+                                  break;
+                              }
+                            },
+                          ),
                         ],
                       ),
+                      const SizedBox(height: 10),
+                      Divider(color: Colors.grey[300], thickness: 1),
+                      const SizedBox(height: 10),
+                      Expanded(child: BodySession()),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      buildCategoryFilter(),
-                      SizedBox(width: 16),
-                      SortDropdownButton(
-                        onSelected: (selected) {
-                          switch (selected) {
-                            case 'name_asc':
-                              controller.sortItemsByName(ascending: true);
-                              break;
-                            case 'name_desc':
-                              controller.sortItemsByName(ascending: false);
-                              break;
-                            case 'date_desc':
-                              controller.sortItemsByDate(ascending: false);
-                              break;
-                            case 'date_asc':
-                              controller.sortItemsByDate(ascending: true);
-                              break;
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Divider(
-                    color: Colors.grey[300],
-                    thickness: 1,
-                  ),
-                  Expanded(
-                    child: BodySession(),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
 
   Widget buildCategoryFilter() {
+    final RentalController controller = Get.find();
     return Obx(() {
       return Container(
         height: 50,
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-          color: Color(0x0D000000), // Black with 5% opacity
+          color: const Color(0x0D000000),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Color(0x4D9E9E9E)), // Grey with 30% opacity
+          border: Border.all(color: const Color(0x4D9E9E9E)),
         ),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
@@ -107,10 +140,7 @@ class RentalView extends StatelessWidget {
             icon:
                 Icon(Icons.arrow_drop_down, size: 20, color: Colors.grey[700]),
             dropdownColor: Colors.white,
-            style: TextStyle(
-              fontSize: 13,
-              color: Colors.grey[800],
-            ),
+            style: TextStyle(fontSize: 13, color: Colors.grey[800]),
             items: categoryList.map((String category) {
               return DropdownMenuItem<String>(
                 value: category,
