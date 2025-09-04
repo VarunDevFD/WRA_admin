@@ -13,19 +13,30 @@ class TableListTileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isMobile = screenSize.width < 600;
+    final isTablet = screenSize.width >= 900 && screenSize.width < 1200;
+    final miniTablet = screenSize.width >= 600 && screenSize.width < 900;
     final isHovered = false.obs;
+    final fontSize = miniTablet
+        ? 14.0
+        : isTablet
+            ? 16.0
+            : isMobile
+                ? 12.0
+                : 18.0;
 
     return MouseRegion(
       onEnter: (_) => isHovered.value = true,
       onExit: (_) => isHovered.value = false,
       child: Obx(() => Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 16),
             color: isHovered.value ? Colors.grey.shade100 : Colors.transparent,
             child: Row(
               children: [
                 // Name section
                 Expanded(
-                  flex: 4,
+                  flex: 1,
                   child: Row(
                     children: [
                       Container(
@@ -35,23 +46,24 @@ class TableListTileView extends StatelessWidget {
                           color: Colors.blue.shade600,
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.folder,
-                          size: 16,
+                          size: fontSize,
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(width: 5),
+                      SizedBox(width: 10),
                       Expanded(
                         child: Text(
                           customer.name,
-                          style: const TextStyle(
-                            fontSize: 14,
+                          style: TextStyle(
+                            fontSize: fontSize,
                             fontWeight: FontWeight.w500,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
+                      SizedBox(width: 10),
                     ],
                   ),
                 ),
@@ -61,6 +73,7 @@ class TableListTileView extends StatelessWidget {
                   flex: 2,
                   child: Row(
                     children: [
+                      SizedBox(width: 20),
                       Container(
                         width: 22,
                         height: 22,
@@ -74,29 +87,34 @@ class TableListTileView extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(width: 5),
+                      SizedBox(width: 10),
                       Text(
                         customer.email,
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: fontSize,
                           color: Colors.grey.shade700,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
+                      SizedBox(width: 10),
                     ],
                   ),
                 ),
 
                 // Date
                 Expanded(
-                  flex: 2,
+                  flex: 1,
                   child: Text(
                     controller.formatDate(customer.joinDate),
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: fontSize,
                       color: Colors.grey.shade700,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
+                ),
+                SizedBox(
+                  width: 60,
                 ),
 
                 // Address
@@ -105,7 +123,7 @@ class TableListTileView extends StatelessWidget {
                   child: Text(
                     customer.address,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: fontSize,
                       color: Colors.grey.shade700,
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -129,7 +147,7 @@ class TableListTileView extends StatelessWidget {
                                   color: customer.isStarred
                                       ? Colors.grey.shade700
                                       : Colors.grey.shade400,
-                                  size: 16,
+                                  size: isTablet ? 20 : 22,
                                 ),
                                 tooltip: customer.isStarred
                                     ? 'View details'
@@ -146,7 +164,7 @@ class TableListTileView extends StatelessWidget {
                                   color: customer.isStarred
                                       ? Colors.yellow.shade700
                                       : Colors.grey,
-                                  size: 16,
+                                  size: isTablet ? 20 : 22,
                                 ),
                                 tooltip: customer.isStarred
                                     ? 'Remove from favorites'
@@ -154,10 +172,10 @@ class TableListTileView extends StatelessWidget {
                                 onPressed: () => controller.toggleStar(index),
                               ),
                               IconButton(
-                                icon: const Icon(
+                                icon: Icon(
                                   Icons.delete,
                                   color: Colors.red,
-                                  size: 16,
+                                  size: isTablet ? 20 : 22,
                                 ),
                                 tooltip: 'Delete',
                                 onPressed: () =>
@@ -167,8 +185,8 @@ class TableListTileView extends StatelessWidget {
                           ),
                         ),
                       )
-                    : const Icon(Icons.more_vert,
-                        size: 16,
+                    : Icon(Icons.more_vert,
+                        size: isTablet ? 20 : 22,
                         color: Colors.grey,
                         key: ValueKey('default'))),
               ],
