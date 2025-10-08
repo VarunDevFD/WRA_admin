@@ -121,3 +121,4 @@ class BookingsTable extends StatelessWidget {
         ));
   }
 }
+
