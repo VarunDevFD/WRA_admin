@@ -8,49 +8,83 @@ class OverviewCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Row(
-          children: [
-            Expanded(
-              child: _buildOverviewCard(
-                'Total Revenue',
-                '\$${controller.monthlyRevenue.fold(0.0, (sum, revenue) => sum + revenue).toStringAsFixed(0)}',
-                Icons.trending_up,
-                Colors.green,
-                '+12.5%',
-              ),
-            ),
-            SizedBox(width: 16),
-            Expanded(
-              child: _buildOverviewCard(
-                'Monthly Growth',
-                '+${((controller.monthlyRevenue.isNotEmpty ? controller.monthlyRevenue.last / controller.monthlyRevenue.first : 1.0) * 100 - 100).toStringAsFixed(1)}%',
-                Icons.show_chart,
-                Colors.blue,
-                '+8.2%',
-              ),
-            ),
-            SizedBox(width: 16),
-            Expanded(
-              child: _buildOverviewCard(
-                'Top Category',
-                'Decoration',
-                Icons.category,
-                Colors.purple,
-                '32% share',
-              ),
-            ),
-            SizedBox(width: 16),
-            Expanded(
-              child: _buildOverviewCard(
-                'Customer Satisfaction',
-                '4.8/5.0',
-                Icons.star,
-                Colors.orange,
-                '+0.3',
-              ),
-            ),
-          ],
-        ));
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 600;
+    final isTablet = screenWidth >= 600 && screenWidth < 1000;
+
+    final cards = [
+      Obx(() => _buildOverviewCard(
+            'Total Revenue',
+            '\$${controller.monthlyRevenue.fold(0.0, (sum, revenue) => sum + revenue).toStringAsFixed(0)}',
+            Icons.trending_up,
+            Colors.green,
+            '+12.5%',
+          )),
+      Obx(() => _buildOverviewCard(
+            'Monthly Growth',
+            '+${((controller.monthlyRevenue.isNotEmpty ? controller.monthlyRevenue.last / controller.monthlyRevenue.first : 1.0) * 100 - 100).toStringAsFixed(1)}%',
+            Icons.show_chart,
+            Colors.blue,
+            '+8.2%',
+          )),
+      _buildOverviewCard(
+        'Top Category',
+        'Decoration',
+        Icons.category,
+        Colors.purple,
+        '32% share',
+      ),
+      _buildOverviewCard(
+        'Customer Satisfaction',
+        '4.8/5.0',
+        Icons.star,
+        Colors.orange,
+        '+0.3',
+      ),
+    ];
+
+    // No need for Obx here anymore
+    return isMobile
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (int i = 0; i < cards.length; i++) ...[
+                cards[i],
+                if (i != cards.length - 1) SizedBox(height: 16),
+              ]
+            ],
+          )
+        : isTablet
+            ? Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(child: cards[0]),
+                      SizedBox(width: 10),
+                      Expanded(child: cards[1]),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(child: cards[2]),
+                      SizedBox(width: 10),
+                      Expanded(child: cards[3]),
+                    ],
+                  ),
+                ],
+              )
+            : Row(
+                children: [
+                  for (int i = 0; i < cards.length; i++) ...[
+                    Expanded(child: cards[i]),
+                    if (i != cards.length - 1)
+                      SizedBox(
+                        width: isTablet ? 10 : 16,
+                      ),
+                  ]
+                ],
+              );
   }
 
   Widget _buildOverviewCard(
@@ -62,7 +96,7 @@ class OverviewCards extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey[500]!,
+            color: Colors.grey[400]!,
             spreadRadius: 1,
             blurRadius: 4,
             offset: Offset(0, 2),
@@ -91,6 +125,8 @@ class OverviewCards extends StatelessWidget {
                 ),
                 child: Text(
                   change,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.green,
                     fontSize: 10,
@@ -103,6 +139,8 @@ class OverviewCards extends StatelessWidget {
           SizedBox(height: 12),
           Text(
             value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -111,6 +149,8 @@ class OverviewCards extends StatelessWidget {
           ),
           Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey[600],

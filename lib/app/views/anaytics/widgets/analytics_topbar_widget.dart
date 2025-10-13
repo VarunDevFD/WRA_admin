@@ -7,7 +7,7 @@ class TopBarView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 70,
-      color: Colors.white,
+      color: Colors.lightBlue.shade50,
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -15,7 +15,7 @@ class TopBarView extends StatelessWidget {
           Text(
             'Analytics Management',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: FontWeight.w600,
               color: Colors.grey[800],
             ),

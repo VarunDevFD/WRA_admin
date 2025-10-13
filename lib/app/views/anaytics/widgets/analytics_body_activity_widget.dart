@@ -24,6 +24,8 @@ class RecentActivity extends StatelessWidget {
         children: [
           Text(
             'Recent Activity',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -71,6 +73,8 @@ class RecentActivity extends StatelessWidget {
               children: [
                 Text(
                   title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 13,
@@ -78,6 +82,8 @@ class RecentActivity extends StatelessWidget {
                 ),
                 Text(
                   subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.grey[600],
@@ -88,6 +94,8 @@ class RecentActivity extends StatelessWidget {
           ),
           Text(
             time,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 11,
               color: Colors.grey[500],
