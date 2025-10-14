@@ -6,70 +6,84 @@ class HelpContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 600;
+    final isTablet = screenWidth >= 600 && screenWidth < 1024;
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: ListView(
-        children: [
-        _buildBackButton(),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: 3,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: 2.5,
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
           children: [
-          _buildHelpCard(
-            icon: Icons.mouse_outlined,
-            title: 'Getting started',
-          ),
-          _buildHelpCard(
-            icon: Icons.auto_awesome_outlined,
-            title: 'AI',
-          ),
-          _buildHelpCard(
-            icon: Icons.account_circle_outlined,
-            title: 'Accounts & Workspaces',
-          ),
-          _buildHelpCard(
-            icon: Icons.design_services_outlined,
-            title: 'Design & accessibility',
-          ),
-          _buildHelpCard(
-            icon: Icons.cloud_outlined,
-            title: 'Hosting & domains',
-          ),
-          _buildHelpCard(
-            icon: Icons.analytics_outlined,
-            title: 'Site management & SEO',
-          ),
-          _buildHelpCard(
-            icon: Icons.insights_outlined,
-            title: 'Insights',
-          ),
-          _buildHelpCard(
-            icon: Icons.language_outlined,
-            title: 'Localization',
-          ),
-          _buildHelpCard(
-            icon: Icons.dynamic_form_outlined,
-            title: 'Forms & Logic',
-          ),
-          _buildHelpCard(
-            icon: Icons.extension_outlined,
-            title: 'Marketplace &\nIntegrations',
-          ),
+            _buildBackButton(),
+            GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: (isMobile || isTablet) ? 2 : 3,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              childAspectRatio: 2.5,
+              children: [
+                _buildHelpCard(
+                  context,
+                  icon: Icons.mouse_outlined,
+                  title: 'Getting started',
+                ),
+                _buildHelpCard(
+                  context,
+                  icon: Icons.auto_awesome_outlined,
+                  title: 'AI',
+                ),
+                _buildHelpCard(
+                  context,
+                  icon: Icons.account_circle_outlined,
+                  title: 'Accounts & Workspaces',
+                ),
+                _buildHelpCard(
+                  context,
+                  icon: Icons.design_services_outlined,
+                  title: 'Design & accessibility',
+                ),
+                _buildHelpCard(
+                  context,
+                  icon: Icons.cloud_outlined,
+                  title: 'Hosting & domains',
+                ),
+                _buildHelpCard(
+                  context,
+                  icon: Icons.analytics_outlined,
+                  title: 'Site management & SEO',
+                ),
+                _buildHelpCard(
+                  context,
+                  icon: Icons.insights_outlined,
+                  title: 'Insights',
+                ),
+                _buildHelpCard(
+                  context,
+                  icon: Icons.language_outlined,
+                  title: 'Localization',
+                ),
+                _buildHelpCard(
+                  context,
+                  icon: Icons.dynamic_form_outlined,
+                  title: 'Forms & Logic',
+                ),
+                _buildHelpCard(
+                  context,
+                  icon: Icons.extension_outlined,
+                  title: 'Marketplace &\nIntegrations',
+                ),
+              ],
+            ),
           ],
         ),
-        ],
-      ),
       ),
     );
   }
 
-  Widget _buildHelpCard({
+  Widget _buildHelpCard(
+    BuildContext context, {
     required IconData icon,
     required String title,
     // required VoidCallback onTap,
@@ -88,7 +102,7 @@ class HelpContent extends StatelessWidget {
         onTap: () {},
         borderRadius: BorderRadius.circular(12),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(20.0),
           child: Row(
             children: [
               Container(

@@ -7,10 +7,23 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen width using MediaQuery
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 600;
+    final commonColor = const Color.fromARGB(255, 161, 203, 233);
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: isMobile
+          ? AppBar(
+              title: const Text('Settings'),
+              backgroundColor: commonColor,
+              foregroundColor: Colors.black,
+            )
+          : null,
+      drawer: isMobile ? const Drawer(child: SidebarView()) : null,
       body: Row(
         children: [
-          SidebarView(),
+          (!isMobile) ? SidebarView() : SizedBox(),
           Expanded(
             child: SettingsContent(),
           ),

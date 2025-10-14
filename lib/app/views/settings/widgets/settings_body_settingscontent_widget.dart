@@ -7,7 +7,7 @@ import 'package:wdr/app/views/settings/widgets/settings_body_helpcontent_widget.
 import 'package:wdr/app/views/settings/widgets/settings_body_language_widget.dart';
 import 'package:wdr/app/views/settings/widgets/settings_body_notification_widget.dart';
 import 'package:wdr/app/views/settings/widgets/settings_body_passwordcontent_widget.dart';
-import 'package:wdr/app/views/settings/widgets/settings_body_paymentmethod_widget.dart'; 
+import 'package:wdr/app/views/settings/widgets/settings_body_paymentmethod_widget.dart';
 import 'package:wdr/app/views/settings/widgets/settings_body_profilecontent_widget.dart';
 
 class SettingsContent extends StatelessWidget {
@@ -114,6 +114,8 @@ class SettingsContent extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
       child: Text(
         title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
@@ -134,8 +136,16 @@ class SettingsContent extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8.0),
       child: ListTile(
         leading: Icon(icon, color: Colors.blue),
-        title: Text(title),
-        subtitle: Text(subtitle),
+        title: Text(
+          title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Text(
+          subtitle,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         trailing: trailing ?? const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: onTap,
       ),
