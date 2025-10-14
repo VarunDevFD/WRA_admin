@@ -7,8 +7,11 @@ class Sidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    final isTablet = screenWidth < 1200;
     return Container(
-      width: 260,
+      width: isTablet ? 200 : 260,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -35,7 +38,7 @@ class Sidebar extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Color(0x1AFFFFFF),
+                    color: Color(0xFF3498db),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(Icons.inventory, color: Colors.white, size: 32),
@@ -64,10 +67,10 @@ class Sidebar extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 12),
               children: [
                 _sidebarItem(Icons.dashboard, 'Dashboard', '/dashboard'),
-                _sidebarItem(Icons.inventory, 'Rentals', '/rentals'),
-                _sidebarItem(Icons.people, 'Customers', '/customers'),
-                _sidebarItem(Icons.book_online, 'Bookings', '/bookings',
+                _sidebarItem(Icons.inventory, 'Rentals', '/rentals',
                     isActive: true),
+                _sidebarItem(Icons.people, 'Customers', '/customers'),
+                _sidebarItem(Icons.book_online, 'Bookings', '/bookings'),
                 _sidebarItem(Icons.analytics, 'Analytics', '/analytics'),
                 _sidebarItem(Icons.settings, 'Settings', '/settings'),
                 SizedBox(height: 20),
@@ -123,13 +126,9 @@ class Sidebar extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: isActive
-                  ? Colors.white.withOpacity(0.15)
-                  : Colors.transparent,
+              color: isActive ? Color(0x26FFFFFF) : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
-              border: isActive
-                  ? Border.all(color: Colors.white.withOpacity(0.3))
-                  : null,
+              border: isActive ? Border.all(color: Color(0x4DFFFFFF)) : null,
             ),
             child: Row(
               children: [

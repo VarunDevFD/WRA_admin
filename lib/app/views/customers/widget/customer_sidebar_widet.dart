@@ -7,8 +7,11 @@ class SidebarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    final isTablet = screenWidth < 1200;
     return Container(
-      width: 260,
+      width: isTablet ? 200 : 260,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -20,7 +23,7 @@ class SidebarView extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Color(0x1A000000),
             blurRadius: 10,
             offset: Offset(2, 0),
           ),
@@ -35,7 +38,7 @@ class SidebarView extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.1),
+                    color: Color(0xFF3498db),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(Icons.people, color: Colors.white, size: 32),

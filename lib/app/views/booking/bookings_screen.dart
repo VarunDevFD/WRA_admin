@@ -7,7 +7,6 @@ import 'package:wdr/app/views/booking/widgets/booking_body_table_widget.dart';
 import 'package:wdr/app/views/booking/widgets/booking_sidebar_session_widget.dart';
 import 'package:wdr/app/views/booking/widgets/booking_topbar_session_widget.dart';
 import 'package:wdr/app/views/booking/widgets/responsive_widget.dart';
-import 'package:wdr/app/views/rentals/widgets/rental_sidebar_widget.dart';
 import '../../models/booking.dart';
 
 class BookingsView extends StatelessWidget {
@@ -23,8 +22,9 @@ class BookingsView extends StatelessWidget {
     final commonColor = const Color.fromARGB(255, 161, 203, 233);
 
     return Scaffold(
-      drawer:
-          isMobile ? Drawer(child: Sidebar()) : null, // Drawer only for mobile
+      drawer: isMobile
+          ? Drawer(child: SideBarView())
+          : null, // Drawer only for mobile
       appBar: isMobile
           ? AppBar(
               title: const Text('BookingsView'),

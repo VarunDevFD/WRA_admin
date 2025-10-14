@@ -63,13 +63,13 @@ class DashboardController extends GetxController {
     final hour = DateTime.now().hour;
 
     if (hour >= 5 && hour < 12) {
-      return 'Good Morning';
+      return 'Good Morning, Admin!';
     } else if (hour >= 12 && hour < 17) {
-      return 'Good Afternoon';
+      return 'Good Afternoon, Admin!';
     } else if (hour >= 17 && hour < 21) {
-      return 'Good Evening';
+      return 'Good Evening, Admin!';
     } else {
-      return 'Good Night';
+      return 'Good Night, Admin!';
     }
   }
 

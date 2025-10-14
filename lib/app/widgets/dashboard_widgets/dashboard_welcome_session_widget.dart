@@ -41,7 +41,9 @@ class WelcomeSectionWidget extends StatelessWidget {
                         color: Colors.white, size: 28),
                     SizedBox(width: 12),
                     Text(
-                      '${controller.getTimeBasedGreeting()}, Admin!',
+                      controller.getTimeBasedGreeting(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: screen < 600
                             ? 16
@@ -58,6 +60,8 @@ class WelcomeSectionWidget extends StatelessWidget {
                 SizedBox(height: 8),
                 Text(
                   'Welcome to Your Dashboard',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -67,6 +71,8 @@ class WelcomeSectionWidget extends StatelessWidget {
                 SizedBox(height: 8),
                 Text(
                   'Monitor your rental business performance and manage your inventory efficiently.',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 16,
                     color: Color(0xCCFFFFFF),
@@ -90,7 +96,7 @@ class WelcomeSectionWidget extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: 20),
+          SizedBox(width: 22),
           Container(
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(

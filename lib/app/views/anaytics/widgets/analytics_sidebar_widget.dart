@@ -41,7 +41,7 @@ class SidebarView extends StatelessWidget {
                     color: Color(0xFF3498db),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(Icons.store, color: Colors.white, size: 32),
+                  child: Icon(Icons.auto_graph, color: Colors.white, size: 32),
                 ),
                 SizedBox(height: 12),
                 Text(
