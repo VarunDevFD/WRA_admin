@@ -127,7 +127,7 @@ class DashboardView extends StatelessWidget {
               children: [
                 _sidebarItem(Icons.dashboard, 'Dashboard', '/dashboard',
                     isActive: true),
-                _sidebarItem(Icons.inventory, 'Rentals', '/rentals'),
+                _sidebarItem(Icons.inventory, 'Products', '/products'),
                 _sidebarItem(Icons.people, 'Customers', '/customers'),
                 _sidebarItem(Icons.book_online, 'Bookings', '/bookings'),
                 _sidebarItem(Icons.analytics, 'Analytics', '/analytics'),

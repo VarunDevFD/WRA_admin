@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:wdr/app/controllers/rental_controller.dart';
 
 class BodySession extends StatelessWidget {
-  final RentalController controller = Get.find();
+  final ProductsController controller = Get.find();
   BodySession({super.key});
 
   @override
@@ -89,12 +89,22 @@ class BodySession extends StatelessWidget {
                 ...itemCardContent(item),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: IconButton(
-                    icon: Icon(Icons.visibility, color: Colors.grey[700]),
-                    onPressed: () {
-                      // Implement navigation or detail logic
-                      controller.openItemDetails(item);
-                    },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Approved',
+                        style: TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.visibility, color: Colors.grey[700]),
+                        onPressed: () {
+                          // Implement navigation or detail logic
+                          controller.openItemDetails(item);
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -125,6 +135,11 @@ class BodySession extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: itemCardContent(item),
                   ),
+                ),
+                Text(
+                  'Approved',
+                  style: TextStyle(
+                      color: Colors.green, fontWeight: FontWeight.bold),
                 ),
                 IconButton(
                   icon: Icon(Icons.visibility, color: Colors.grey[700]),
@@ -162,6 +177,4 @@ class BodySession extends StatelessWidget {
       ),
     ];
   }
-
-  
 }

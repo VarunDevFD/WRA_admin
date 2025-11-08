@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     // Initialize controllers
     Get.put(AuthController());
     Get.put(DashboardController());
-    Get.put(RentalController());
+    Get.put(ProductsController());
     Get.put(AnalyticsController());
 
     return GetMaterialApp(

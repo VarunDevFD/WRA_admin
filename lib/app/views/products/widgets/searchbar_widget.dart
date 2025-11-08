@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:wdr/app/controllers/rental_controller.dart';
 
 class SearchBarView extends StatelessWidget {
-  final RentalController controller = Get.find();
+  final ProductsController controller = Get.find();
   final RxString selectedCategory = 'All'.obs;
 
-    SearchBarView({super.key});
+  SearchBarView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,4 +36,4 @@ class SearchBarView extends StatelessWidget {
       ),
     );
   }
-} 
+}

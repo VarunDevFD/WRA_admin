@@ -141,7 +141,7 @@ class BookingsView extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 12),
               children: [
                 _sidebarItem(Icons.dashboard, 'Dashboard', '/dashboard'),
-                _sidebarItem(Icons.inventory, 'Rentals', '/rentals'),
+                _sidebarItem(Icons.inventory, 'Products', '/products'),
                 _sidebarItem(Icons.people, 'Customers', '/customers'),
                 _sidebarItem(Icons.book_online, 'Bookings', '/bookings',
                     isActive: true),
@@ -149,7 +149,6 @@ class BookingsView extends StatelessWidget {
                 _sidebarItem(Icons.settings, 'Settings', '/settings'),
                 SizedBox(height: 20),
                 Divider(color: Colors.white24),
-                 
               ],
             ),
           ),

@@ -4,7 +4,7 @@ import 'package:wdr/app/views/booking/bookings_screen.dart';
 import 'package:wdr/app/views/customers/customers_screen.dart';
 import 'package:wdr/app/views/dashboard/dashboard_view.dart';
 import 'package:wdr/app/views/authentication/login_view.dart';
-import 'package:wdr/app/views/rentals/rental_screen.dart';
+import 'package:wdr/app/views/products/products_screen.dart';
 import 'package:wdr/app/views/settings/setting_view.dart';
 import 'package:wdr/app/views/splash_screen.dart';
 
@@ -15,7 +15,7 @@ class AppPages {
     GetPage(name: '/splash', page: () => SplashView()),
     GetPage(name: '/login', page: () => LoginView()),
     GetPage(name: '/dashboard', page: () => DashboardView()),
-    GetPage(name: '/rentals', page: () => RentalView()), 
+    GetPage(name: '/products', page: () => ProductsView()),
     GetPage(name: '/customers', page: () => CustomersView()),
     GetPage(name: '/bookings', page: () => BookingsView()),
     GetPage(name: '/analytics', page: () => AnalyticsView()),
