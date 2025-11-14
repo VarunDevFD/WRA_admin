@@ -178,8 +178,8 @@ class RevenueChart extends StatelessWidget {
                       show: true,
                       gradient: LinearGradient(
                         colors: [
-                          Color(0xFF6C63FF).withOpacity(0.3),
-                          Color(0xFF6C63FF).withOpacity(0.0),
+                            Color(0xFF6C63FF),
+                          Color(0xFF6C63FF).withValues(alpha: 0.0),
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,

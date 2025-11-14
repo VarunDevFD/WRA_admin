@@ -3,7 +3,7 @@ import 'package:wdr/app/views/settings/widgets/settings_body_settingscontent_wid
 import 'package:wdr/app/views/settings/widgets/settings_sidebar_widget.dart';
 
 class SettingsView extends StatelessWidget {
-  const SettingsView({super.key});
+    const SettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {

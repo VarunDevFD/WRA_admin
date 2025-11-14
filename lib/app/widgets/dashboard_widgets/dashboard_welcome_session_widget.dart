@@ -80,7 +80,7 @@ class WelcomeSectionWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton.icon(
-                  onPressed: () => Get.toNamed('/rentals'),
+                  onPressed: () => Get.toNamed('/products'),
                   icon: Icon(Icons.more_vert_rounded),
                   label: Text('See more'),
                   style: ElevatedButton.styleFrom(

@@ -7,7 +7,7 @@ import 'package:wdr/app/controllers/rental_controller.dart';
 void di() {
    Get.put(AuthController());
     Get.put(DashboardController());
-    Get.put(RentalController());
+    Get.put(ProductsController());
     Get.put(AnalyticsController());
 
 }

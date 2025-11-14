@@ -67,7 +67,7 @@ class SidebarView extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 12),
               children: [
                 _sidebarItem(Icons.dashboard, 'Dashboard', '/dashboard'),
-                _sidebarItem(Icons.inventory, 'Rentals', '/rentals'),
+                _sidebarItem(Icons.inventory, 'Products', '/products'),
                 _sidebarItem(Icons.people, 'Customers', '/customers',
                     isActive: true),
                 _sidebarItem(Icons.book_online, 'Bookings', '/bookings'),
@@ -127,11 +127,12 @@ class SidebarView extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: isActive
-                  ? Colors.white.withOpacity(0.15)
+                  ? Color.fromARGB(38, 255, 255, 255) // 15% opacity
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
               border: isActive
-                  ? Border.all(color: Colors.white.withOpacity(0.3))
+                  ? Border.all(
+                      color: Color.fromARGB(76, 255, 255, 255)) // 30% opacity
                   : null,
             ),
             child: Row(

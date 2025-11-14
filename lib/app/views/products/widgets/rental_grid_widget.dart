@@ -7,7 +7,7 @@ class GridToggleSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final RentalController controller = Get.find();
+    final ProductsController controller = Get.find();
 
     final commonColor = const Color.fromARGB(255, 161, 203, 233);
 

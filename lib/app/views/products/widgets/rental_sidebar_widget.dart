@@ -45,7 +45,7 @@ class Sidebar extends StatelessWidget {
                 ),
                 SizedBox(height: 12),
                 Text(
-                  'Rental',
+                  'Products',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -67,7 +67,7 @@ class Sidebar extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 12),
               children: [
                 _sidebarItem(Icons.dashboard, 'Dashboard', '/dashboard'),
-                _sidebarItem(Icons.inventory, 'Rentals', '/rentals',
+                _sidebarItem(Icons.inventory, 'Products', '/products',
                     isActive: true),
                 _sidebarItem(Icons.people, 'Customers', '/customers'),
                 _sidebarItem(Icons.book_online, 'Bookings', '/bookings'),

@@ -79,7 +79,7 @@ class CustomerGrowthChart extends StatelessWidget {
 
   Widget getTitles(double value, TitleMeta meta) {
     final style = TextStyle(
-      color: Color(0xFF2196F3).withOpacity(0.8),
+      color: Color(0xCC2196F3),
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );

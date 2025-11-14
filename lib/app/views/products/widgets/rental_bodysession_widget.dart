@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:wdr/app/controllers/rental_controller.dart';
 
 class BodySession extends StatelessWidget {
-  final commonColor = const Color.fromARGB(255, 161, 203, 233);
-  const BodySession({super.key});
+  final ProductsController controller = Get.find();
+  BodySession({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final RentalController controller = Get.find();
+    final ProductsController controller = Get.find();
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 600;
 
@@ -58,7 +58,7 @@ class BodySession extends StatelessWidget {
                   itemBuilder: (context, index) => buildItemCard(
                       item: items[index],
                       isGrid: true,
-                      commonColor: commonColor,
+                      commonColor: Colors.blueAccent,
                       controller: controller,
                       screenSize: screenSize),
                 )
@@ -69,7 +69,7 @@ class BodySession extends StatelessWidget {
                     child: buildItemCard(
                         item: items[index],
                         isGrid: false,
-                        commonColor: commonColor,
+                        commonColor: Colors.blueAccent,
                         controller: controller,
                         screenSize: screenSize),
                   ),
@@ -83,7 +83,7 @@ class BodySession extends StatelessWidget {
     required dynamic item,
     required bool isGrid,
     required Color commonColor,
-    required RentalController controller,
+    required ProductsController controller,
     bool screenSize = false,
   }) {
     return Container(
@@ -134,11 +134,22 @@ class BodySession extends StatelessWidget {
                 ...itemCardContent(item, screenSize),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: IconButton(
-                    icon: Icon(Icons.visibility, color: Colors.grey[700]),
-                    onPressed: () {
-                      controller.openItemDetails(item);
-                    },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Approved',
+                        style: TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.visibility, color: Colors.grey[700]),
+                        onPressed: () {
+                          // Implement navigation or detail logic
+                          controller.openItemDetails(item);
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -169,6 +180,11 @@ class BodySession extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: itemCardContent(item),
                   ),
+                ),
+                Text(
+                  'Approved',
+                  style: TextStyle(
+                      color: Colors.green, fontWeight: FontWeight.bold),
                 ),
                 IconButton(
                   icon: Icon(Icons.visibility, color: Colors.grey[700]),

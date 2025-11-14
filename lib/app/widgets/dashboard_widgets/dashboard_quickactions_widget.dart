@@ -35,7 +35,7 @@ class QuickActions extends StatelessWidget {
             'Products Management',
             Icons.add_circle_outline,
             Color(0xFF667eea),
-            () => Get.toNamed('/rentals'),
+            () => Get.toNamed('/products'),
           ),
           SizedBox(height: 12),
           _quickActionButton(
