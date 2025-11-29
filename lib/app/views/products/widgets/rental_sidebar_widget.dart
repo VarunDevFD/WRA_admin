@@ -70,6 +70,7 @@ class Sidebar extends StatelessWidget {
                 _sidebarItem(Icons.inventory, 'Products', '/products',
                     isActive: true),
                 _sidebarItem(Icons.people, 'Customers', '/customers'),
+                _sidebarItem(Icons.person_pin, 'Service Provider', '/provider'),
                 _sidebarItem(Icons.book_online, 'Bookings', '/bookings'),
                 _sidebarItem(Icons.analytics, 'Analytics', '/analytics'),
                 _sidebarItem(Icons.settings, 'Settings', '/settings'),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:wdr/app/controllers/auth_controller.dart';
 
-class SidebarView extends StatelessWidget {
-  const SidebarView({super.key});
+class Sidebar extends StatelessWidget {
+  const Sidebar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +43,11 @@ class SidebarView extends StatelessWidget {
                     color: Color(0xFF3498db),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(Icons.people, color: Colors.white, size: 32),
+                  child: Icon(Icons.person_pin, color: Colors.white, size: 32),
                 ),
                 SizedBox(height: 12),
                 Text(
-                  'Customer',
+                  'Service Provider',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -68,9 +70,9 @@ class SidebarView extends StatelessWidget {
               children: [
                 _sidebarItem(Icons.dashboard, 'Dashboard', '/dashboard'),
                 _sidebarItem(Icons.inventory, 'Products', '/products'),
-                _sidebarItem(Icons.people, 'Customers', '/customers',
+                _sidebarItem(Icons.people, 'Customers', '/customers'),
+                _sidebarItem(Icons.person_pin, 'Service Provider', '/provider',
                     isActive: true),
-                _sidebarItem(Icons.person_pin, 'Service Provider', '/provider'),
                 _sidebarItem(Icons.book_online, 'Bookings', '/bookings'),
                 _sidebarItem(Icons.analytics, 'Analytics', '/analytics'),
                 _sidebarItem(Icons.settings, 'Settings', '/settings'),
@@ -86,7 +88,7 @@ class SidebarView extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: () => Get.find<AuthController>().logout(),
+                    onPressed: () => _showLogoutDialog(),
                     icon: Icon(Icons.logout, size: 18),
                     label: Text('Logout'),
                     style: ElevatedButton.styleFrom(
@@ -127,14 +129,9 @@ class SidebarView extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: isActive
-                  ? Color.fromARGB(38, 255, 255, 255) // 15% opacity
-                  : Colors.transparent,
+              color: isActive ? Color(0x26FFFFFF) : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
-              border: isActive
-                  ? Border.all(
-                      color: Color.fromARGB(76, 255, 255, 255)) // 30% opacity
-                  : null,
+              border: isActive ? Border.all(color: Color(0x4DFFFFFF)) : null,
             ),
             child: Row(
               children: [
@@ -157,6 +154,59 @@ class SidebarView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showLogoutDialog() {
+    Get.dialog(
+      AlertDialog(
+        title: Text(
+          'Confirm Logout',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.red[600],
+          ),
+        ),
+        content: Text(
+          'Are you sure you want to logout?',
+          style: TextStyle(fontSize: 16),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Get.back(); // Close dialog
+              Get.find<AuthController>().logout();
+              // Navigate to login page
+              Get.offAllNamed('/login'); // or Get.offAll(() => LoginPage());
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red[600],
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Text(
+              'Logout',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+          ),
+        ],
+      ),
+      barrierDismissible: false,
     );
   }
 }

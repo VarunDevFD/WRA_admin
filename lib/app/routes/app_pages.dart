@@ -5,6 +5,7 @@ import 'package:wdr/app/views/customers/customers_screen.dart';
 import 'package:wdr/app/views/dashboard/dashboard_view.dart';
 import 'package:wdr/app/views/authentication/login_view.dart';
 import 'package:wdr/app/views/products/products_screen.dart';
+import 'package:wdr/app/views/provider/provider_screen.dart';
 import 'package:wdr/app/views/settings/setting_view.dart';
 import 'package:wdr/app/views/settings/widgets/settings_body_aboutcontent_widget.dart';
 import 'package:wdr/app/views/settings/widgets/settings_body_businessprofile_widget.dart';
@@ -26,6 +27,7 @@ class AppPages {
     GetPage(name: '/dashboard', page: () => DashboardView()),
     GetPage(name: '/products', page: () => ProductsView()),
     GetPage(name: '/customers', page: () => CustomersView()),
+    GetPage(name: '/provider', page: () => ProviderView()),
     GetPage(name: '/bookings', page: () => BookingsView()),
     GetPage(name: '/analytics', page: () => AnalyticsView()),
     GetPage(name: '/settings', page: () => SettingsView()),

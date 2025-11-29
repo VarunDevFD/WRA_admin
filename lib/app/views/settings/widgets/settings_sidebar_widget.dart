@@ -69,6 +69,7 @@ class SidebarView extends StatelessWidget {
                 _sidebarItem(Icons.dashboard, 'Dashboard', '/dashboard'),
                 _sidebarItem(Icons.inventory, 'Products', '/products'),
                 _sidebarItem(Icons.people, 'Customers', '/customers'),
+                _sidebarItem(Icons.person_pin, 'Service Provider', '/provider'),
                 _sidebarItem(Icons.book_online, 'Bookings', '/bookings'),
                 _sidebarItem(Icons.analytics, 'Analytics', '/analytics'),
                 _sidebarItem(Icons.settings, 'Settings', '/settings',
